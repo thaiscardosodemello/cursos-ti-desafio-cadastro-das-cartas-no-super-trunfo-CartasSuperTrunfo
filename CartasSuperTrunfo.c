@@ -96,9 +96,9 @@ int main() {
     printf(" População.............................: %s\n", carta1.populacao > carta2.populacao ? "✔️" : "❌");
     printf(" Área..................................: %s\n", carta1.area > carta2.area ? "✔️" : "❌");
     printf(" PIB...................................: %s\n", carta1.pib > carta2.pib ? "✔️" : "❌");
-    printf(" Pontos Turísticos.....................: %s\n", carta1.pontos_turisticos > carta2.pontos_turisticos ? "✅" : "❌");
+    printf(" Pontos Turísticos.....................: %s\n", carta1.pontos_turisticos > carta2.pontos_turisticos ? "✔️" : "❌");
     printf(" Densidade (menor melhor)..............: %s\n", carta1.densidade < carta2.densidade ? "✔️" : "❌");
-    printf(" PIB per Capita........................: %s\n", carta1.pib_per_capita > carta2.pib_per_capita ? "✅" : "❌");
+    printf(" PIB per Capita........................: %s\n", carta1.pib_per_capita > carta2.pib_per_capita ? "✔️" : "❌");
     printf(" Super Poder...........................: %s\n", carta1.super_poder > carta2.super_poder ? "✔️" : "❌");
     println();
 
