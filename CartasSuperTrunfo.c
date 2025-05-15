@@ -1,112 +1,172 @@
 #include <stdio.h>
 #include <windows.h>
 
+// Estrutura que representa uma carta do jogo
 struct Carta {
-    char estado[30];
-    char nome_cidade[50];
+    char nome_pais[50];
     char codigo[10];
     unsigned long int populacao;
     float area;
     float pib;
     int pontos_turisticos;
     float densidade;
-    float pib_per_capita;
 };
+
+// Funções auxiliares
+void printSeparator() {
+    printf("\n ─────────────────────────────────────────── \n");
+}
 
 void println() {
     printf("\n\n");
 }
 
-void printSeparator1() {
-    printf("\n ─────────────────────────────────── \n");
-}
-void printSeparator2() {
-    printf("\n ─────────────────────────────────────────── \n");
-}
-
 int main() {
-    // Configura o console para UTF-8 para exibir caracteres especiais
+    // Configura o console para exibir corretamente os caracteres especiais
     UINT CPAGE_UTF8 = 65001;
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
 
-    struct Carta carta1, carta2;
+    struct Carta carta1 = {
+        "Brasil", "BR01", 211000000, 8515767.0f, 1868.0f, 25
+    };
 
-    printSeparator1();
-    printf("       📄 Cadastro da Carta 1");
-    printSeparator1();
-    printf(" Estado: ");
-    scanf(" %[^\n]", carta1.estado);
-    printf(" Nome da Cidade: ");
-    scanf(" %[^\n]", carta1.nome_cidade);
-    printf(" Código (ex: A01): ");
-    scanf("%s", carta1.codigo);
-    printf(" População: ");
-    scanf("%lu", &carta1.populacao);
-    printf(" Área (km²): ");
-    scanf("%f", &carta1.area);
-    printf(" PIB (em bilhões): ");
-    scanf("%f", &carta1.pib);
-    printf(" Número de pontos turísticos: ");
-    scanf("%d", &carta1.pontos_turisticos);
+    struct Carta carta2 = {
+        "Japão", "JP01", 125800000, 377975.0f, 4937.0f, 40
+    };
 
+    // Calcula densidade demográfica
     carta1.densidade = carta1.populacao / carta1.area;
-    carta1.pib_per_capita = carta1.pib / carta1.populacao;
-
-    printSeparator1();
-    printf("       📄 Cadastro da Carta 2");
-    printSeparator1();
-    printf(" Estado: ");
-    scanf(" %[^\n]", carta2.estado);
-    printf(" Nome da Cidade: ");
-    scanf(" %[^\n]", carta2.nome_cidade);
-    printf(" Código (ex: A02): ");
-    scanf("%s", carta2.codigo);
-    printf(" População: ");
-    scanf("%lu", &carta2.populacao);
-    printf(" Área (km²): ");
-    scanf("%f", &carta2.area);
-    printf(" PIB (em bilhões): ");
-    scanf("%f", &carta2.pib);
-    printf(" Número de pontos turísticos: ");
-    scanf("%d", &carta2.pontos_turisticos);
-
     carta2.densidade = carta2.populacao / carta2.area;
-    carta2.pib_per_capita = carta2.pib / carta2.populacao;
 
-    println();
-    printf("       ⚔️ COMPARAÇÃO DE CARTAS (Atributo: PIB per capita)\n");
-    printSeparator2();
-    printf(" Carta 1 - %s (%s): %.6f\n", carta1.nome_cidade, carta1.estado, carta1.pib_per_capita);
-    printf(" Carta 2 - %s (%s): %.6f\n", carta2.nome_cidade, carta2.estado, carta2.pib_per_capita);
+    int opcao;
 
-    if (carta1.pib_per_capita > carta2.pib_per_capita) {
-        printf("\n Resultado: Carta 1 (%s - %s) venceu!\n", carta1.nome_cidade, carta1.estado);
-    } else if (carta2.pib_per_capita > carta1.pib_per_capita) {
-        printf("\n Resultado: Carta 2 (%s - %s) venceu!\n", carta2.nome_cidade, carta2.estado);
-    } else {
-        printf("\n Resultado: Empate entre as cartas!\n");
-    }
+    // Exibe menu interativo
+    do {
+        printSeparator();
+        printf(" 🌍 SUPER TRUNFO - COMPARAÇÃO ENTRE PAÍSES");
+        printSeparator();
+        printf(" Escolha o atributo para comparar:");
+        println();
+        printf("   (1) População\n");
+        printf("   (2) Área\n");
+        printf("   (3) PIB\n");
+        printf("   (4) Pontos Turísticos\n");
+        printf("   (5) Densidade Demográfica\n");
+        printf("   (0) Sair\n");
+        println();
+        printf(" Opção: ");
+        scanf("%d", &opcao);
+        println();
+   
 
-    println();
+        // Avalia a opção escolhida
+        switch (opcao) {
+            case 1:
+                println();
+                printf("🔢 Comparação: População");
+                printSeparator();                
+                println();
+                printf("%s: %lu habitantes\n", carta1.nome_pais, carta1.populacao);
+                printf("%s: %lu habitantes\n", carta2.nome_pais, carta2.populacao);
+                println();
 
-    // Restaura a codificação padrão do console
+                if (carta1.populacao > carta2.populacao) {
+                    printf("✔️  %s venceu!\n", carta1.nome_pais);
+                } else if (carta2.populacao > carta1.populacao) {
+                    printf("✔️  %s venceu!\n", carta2.nome_pais);
+                } else {
+                    printf("⚖️  Empate!\n");
+                }
+                break;
+
+            case 2:
+                println();
+                printf("📏 Comparação: Área");
+                printSeparator();                
+                println();
+                printf("%s: %.2f km²\n", carta1.nome_pais, carta1.area);
+                printf("%s: %.2f km²\n", carta2.nome_pais, carta2.area);
+                println();
+
+                if (carta1.area > carta2.area) {
+                    printf("✔️  %s venceu!\n", carta1.nome_pais);
+                } else if (carta2.area > carta1.area) {
+                    printf("✔️  %s venceu!\n", carta2.nome_pais);
+                } else {
+                    printf("⚖️  Empate!\n");
+                }
+                break;
+
+            case 3:
+                println();
+                printf("💰 Comparação: PIB (em bilhões)");
+                printSeparator();                
+                println();
+                printf("%s: %.2f bilhões\n", carta1.nome_pais, carta1.pib);
+                printf("%s: %.2f bilhões\n", carta2.nome_pais, carta2.pib);
+                println();
+
+                if (carta1.pib > carta2.pib) {
+                    printf("✔️  %s venceu!\n", carta1.nome_pais);
+                } else if (carta2.pib > carta1.pib) {
+                    printf("✔️  %s venceu!\n", carta2.nome_pais);
+                } else {
+                    printf("⚖️  Empate!\n");
+                }
+                break;
+
+            case 4:
+                println();
+                printf("📸 Comparação: Pontos Turísticos");
+                printSeparator();                
+                println();
+                printf("%s: %d pontos\n", carta1.nome_pais, carta1.pontos_turisticos);
+                printf("%s: %d pontos\n", carta2.nome_pais, carta2.pontos_turisticos);
+                println();
+
+                if (carta1.pontos_turisticos > carta2.pontos_turisticos) {
+                    printf("✔️  %s venceu!\n", carta1.nome_pais);
+                } else if (carta2.pontos_turisticos > carta1.pontos_turisticos) {
+                    printf("✔️  %s venceu!\n", carta2.nome_pais);
+                } else {
+                    printf("⚖️  Empate!\n");
+                }
+                break;
+
+            case 5:
+                println();
+                printf("📊 Comparação: Densidade Demográfica (menor vence)");
+                printSeparator();                
+                println();
+                printf("%s: %.4f hab/km²\n", carta1.nome_pais, carta1.densidade);
+                printf("%s: %.4f hab/km²\n", carta2.nome_pais, carta2.densidade);
+                println();
+
+                if (carta1.densidade < carta2.densidade) {
+                    printf("✔️  %s venceu!\n", carta1.nome_pais);
+                } else if (carta2.densidade < carta1.densidade) {
+                    printf("✔️  %s venceu!\n", carta2.nome_pais);
+                } else {
+                    printf("⚖️  Empate!\n");
+                }
+                break;
+
+            case 0:
+                printf("👋  Saindo do programa...");
+                println();
+                break;
+
+            default:
+                printf("❌ Opção inválida! Tente novamente.\n");
+        }
+
+        println();
+
+    } while (opcao != 0);
+
+    // Restaura o código de página original do console
     SetConsoleOutputCP(CPAGE_DEFAULT);
 
     return 0;
-
-    // CADASTRO DE CARTA 1
-    // Código (ex: A01): BR01
-    // População: 211000000
-    // Área (km²): 8515767
-    // PIB (em bilhões): 1868
-    // Número de pontos turísticos: 25
-
-    // CADASTRO DE CARTA 2
-    // Código (ex: A01): BR02
-    // População: 125800000
-    // Área (km²): 377975
-    // PIB (em bilhões): 4937
-    // Número de pontos turísticos: 40
-
 }
