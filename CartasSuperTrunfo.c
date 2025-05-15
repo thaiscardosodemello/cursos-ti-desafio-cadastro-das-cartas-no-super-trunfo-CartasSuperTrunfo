@@ -2,6 +2,8 @@
 #include <windows.h>
 
 struct Carta {
+    char estado[30];
+    char nome_cidade[50];
     char codigo[10];
     unsigned long int populacao;
     float area;
@@ -9,7 +11,6 @@ struct Carta {
     int pontos_turisticos;
     float densidade;
     float pib_per_capita;
-    float super_poder;
 };
 
 void println() {
@@ -24,7 +25,7 @@ void printSeparator2() {
 }
 
 int main() {
-    // Configura o console para UTF-8 pra funcionar os caracteres especiais
+    // Configura o console para UTF-8 para exibir caracteres especiais
     UINT CPAGE_UTF8 = 65001;
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
@@ -34,7 +35,11 @@ int main() {
     printSeparator1();
     printf("       📄 Cadastro da Carta 1");
     printSeparator1();
-    printf(" Código \x1b[90m(ex: A01)\x1b[0m: ");
+    printf(" Estado: ");
+    scanf(" %[^\n]", carta1.estado);
+    printf(" Nome da Cidade: ");
+    scanf(" %[^\n]", carta1.nome_cidade);
+    printf(" Código (ex: A01): ");
     scanf("%s", carta1.codigo);
     printf(" População: ");
     scanf("%lu", &carta1.populacao);
@@ -47,12 +52,15 @@ int main() {
 
     carta1.densidade = carta1.populacao / carta1.area;
     carta1.pib_per_capita = carta1.pib / carta1.populacao;
-    carta1.super_poder = carta1.populacao + carta1.area + carta1.pib + carta1.pontos_turisticos + carta1.pib_per_capita + (1.0f / carta1.densidade);
 
     printSeparator1();
     printf("       📄 Cadastro da Carta 2");
     printSeparator1();
-    printf(" Código \x1b[90m(ex: A02)\x1b[0m: ");
+    printf(" Estado: ");
+    scanf(" %[^\n]", carta2.estado);
+    printf(" Nome da Cidade: ");
+    scanf(" %[^\n]", carta2.nome_cidade);
+    printf(" Código (ex: A02): ");
     scanf("%s", carta2.codigo);
     printf(" População: ");
     scanf("%lu", &carta2.populacao);
@@ -65,60 +73,27 @@ int main() {
 
     carta2.densidade = carta2.populacao / carta2.area;
     carta2.pib_per_capita = carta2.pib / carta2.populacao;
-    carta2.super_poder = carta2.populacao + carta2.area + carta2.pib + carta2.pontos_turisticos + carta2.pib_per_capita + (1.0f / carta2.densidade);
 
     println();
-    printf("             🗺️  CARTA 1(%s) ", carta1.codigo);
+    printf("       ⚔️ COMPARAÇÃO DE CARTAS (Atributo: PIB per capita)\n");
     printSeparator2();
-    printf(" 🌍 População............: %lu\n", carta1.populacao);
-    printf(" 📏 Área.................: %.2f km²\n", carta1.area);
-    printf(" 💰 PIB..................: %.2f bilhões\n", carta1.pib);
-    printf(" 📸 Pontos Turísticos....: %d\n", carta1.pontos_turisticos);
-    printf(" 📊 Densidade............: %.4f hab/km²\n", carta1.densidade);
-    printf(" 💵 PIB per Capita.......: %.6f\n", carta1.pib_per_capita);
-    printf(" 🦸 Super Poder..........: %.4f\n", carta1.super_poder);
-    println();
+    printf(" Carta 1 - %s (%s): %.6f\n", carta1.nome_cidade, carta1.estado, carta1.pib_per_capita);
+    printf(" Carta 2 - %s (%s): %.6f\n", carta2.nome_cidade, carta2.estado, carta2.pib_per_capita);
 
-    printf("             🗺️  CARTA 2(%s) ", carta2.codigo);
-    printSeparator2();
-    printf(" 🌍 População............: %lu\n", carta2.populacao);
-    printf(" 📏 Área.................: %.2f km²\n", carta2.area);
-    printf(" 💰 PIB..................: %.2f bilhões\n", carta2.pib);
-    printf(" 📸 Pontos Turísticos....: %d\n", carta2.pontos_turisticos);
-    printf(" 📊 Densidade............: %.4f hab/km²\n", carta2.densidade);
-    printf(" 💵 PIB per Capita.......: %.6f\n", carta2.pib_per_capita);
-    printf(" 🦸 Super Poder..........: %.4f\n", carta2.super_poder);
-    println();
-
-    
-    printf("                ⚔️  COMPARAÇÃO ");
-    printSeparator2();
-    printf(" População.............................: %s\n", carta1.populacao > carta2.populacao ? "✔️" : "❌");
-    printf(" Área..................................: %s\n", carta1.area > carta2.area ? "✔️" : "❌");
-    printf(" PIB...................................: %s\n", carta1.pib > carta2.pib ? "✔️" : "❌");
-    printf(" Pontos Turísticos.....................: %s\n", carta1.pontos_turisticos > carta2.pontos_turisticos ? "✅" : "❌");
-    printf(" Densidade (menor melhor)..............: %s\n", carta1.densidade < carta2.densidade ? "✔️" : "❌");
-    printf(" PIB per Capita........................: %s\n", carta1.pib_per_capita > carta2.pib_per_capita ? "✅" : "❌");
-    printf(" Super Poder...........................: %s\n", carta1.super_poder > carta2.super_poder ? "✔️" : "❌");
-    println();
-
-    printf("                🏆 VENCEDOR ");
-    printSeparator2();
-    if (carta1.super_poder > carta2.super_poder) {
-        printf(" Carta 1 (%s) é a vencedora!\n", carta1.codigo);
-    } else if (carta2.super_poder > carta1.super_poder) {
-        printf(" Carta 2 (%s) é a vencedora!\n", carta2.codigo);
+    if (carta1.pib_per_capita > carta2.pib_per_capita) {
+        printf("\n Resultado: Carta 1 (%s - %s) venceu!\n", carta1.nome_cidade, carta1.estado);
+    } else if (carta2.pib_per_capita > carta1.pib_per_capita) {
+        printf("\n Resultado: Carta 2 (%s - %s) venceu!\n", carta2.nome_cidade, carta2.estado);
     } else {
-        printf(" Empate entre as cartas!\n");
+        printf("\n Resultado: Empate entre as cartas!\n");
     }
+
     println();
 
-    // Restaurar codificação padrão do console
+    // Restaura a codificação padrão do console
     SetConsoleOutputCP(CPAGE_DEFAULT);
 
     return 0;
-
-    // Informações teste:
 
     // CADASTRO DE CARTA 1
     // Código (ex: A01): BR01
@@ -128,7 +103,7 @@ int main() {
     // Número de pontos turísticos: 25
 
     // CADASTRO DE CARTA 2
-    // Código (ex: A01): JP02
+    // Código (ex: A01): BR02
     // População: 125800000
     // Área (km²): 377975
     // PIB (em bilhões): 4937
